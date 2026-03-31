@@ -45,7 +45,7 @@ namespace nsq {
 
     private:
         void handle_client(SOCKET client, sockaddr_in addr) {
-            std::vector<char> buffer(8192); // Biraz nefes alsın server
+            std::vector<char> buffer(8192); 
             std::string raw_data;
             int bytes = recv(client, buffer.data(), (int)buffer.size(), 0);
             if (bytes <= 0) { closesocket(client); return; }
@@ -53,7 +53,7 @@ namespace nsq {
 
             nsq::Request req = parse_http(raw_data);
 
-            // POST Body için Content-Length kontrolü (Eski bozuk yeri düzelttim)
+            
             size_t cl_pos = raw_data.find("Content-Length: ");
             if (cl_pos != std::string::npos) {
                 size_t header_end = raw_data.find("\r\n\r\n");
@@ -87,7 +87,7 @@ namespace nsq {
             if (f_s == std::string::npos || s_s == std::string::npos) return req;
             req.method = data.substr(0, f_s);
             std::string full_path = data.substr(f_s + 1, s_s - f_s - 1);
-            req.parse_query(full_path); // Query string'i düzgün ayıkla
+            req.parse_query(full_path); 
             return req;
         }
 
